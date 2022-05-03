@@ -13,6 +13,8 @@ namespace FourInLineGame
         private int temp_btNumber;
         public bool validMove = false;
         public bool RedPlayersTurn = true;
+        //                                               N          NE         E        SE
+        private int[,] directionSteps = new int[,] { { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
 
 
         public GameClass()
@@ -35,7 +37,6 @@ namespace FourInLineGame
         {
             try
             {
-                checkForSpaceInColoum();
                 checkForWinningMove();
                 return true;
             }
@@ -44,8 +45,6 @@ namespace FourInLineGame
                 MessageBox.Show(e.Message, "This is not a legal move, try again");
                 return false;
             }
-            
-            
         }
 
         public void changePlayerTurn()
@@ -53,13 +52,13 @@ namespace FourInLineGame
             RedPlayersTurn = RedPlayersTurn == true ? false : true;
         }
 
-        private bool checkForSpaceInColoum()
-        {
-            return true;
-        }
-
         private bool checkForWinningMove()
         {
+            //// outer loop loops over those direction-steps N, NE, E, SE:
+            foreach (var direction in directionSteps)
+            {
+
+            }
             return true;
         }
 
@@ -69,42 +68,20 @@ namespace FourInLineGame
         public string MakeMove()
         {
             string toReturn = "";
-            int increment = 0;
             for (int r = 0; r < Board.rows; r++)
             {
                 for (int c = 0; c < Board.cols; c++)
                 {
-                    increment++;
+                    
                     if (board.Board2D[r, c] == temp_btNumber.ToString())
                     {
-                        for (int i = (Board.rows - 1); i >= 0; i--)
+                        for (int i = 5; i >= 0; i--)
                         {
-                            if (!(board.Board2D[i, c] == "X") || !(board.Board2D[i, c] == "X "))
+                            if (board.Board2D[i, c] != "X " && toReturn == "")
                             {
                                 toReturn = board.Board2D[i, c];
-
-                                if (increment <= 9)
-                                {
-                                    board.Board2D[i, c] = "X";
-                                }
-                                else
-                                {
-                                    board.Board2D[i, c] = "X ";
-                                }
-                                break;
-                            }
-                            else
-                            {
-                                toReturn = board.Board2D[i-1, c];
-
-                                if (increment <= 9)
-                                {
-                                    board.Board2D[i-1, c] = "X";
-                                }
-                                else
-                                {
-                                    board.Board2D[i-1, c] = "X ";
-                                }
+                                board.Board2D[i, c] = "X ";
+                                return toReturn;
                             }
                         }
                     }
