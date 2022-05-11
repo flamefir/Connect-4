@@ -9,13 +9,14 @@ namespace FourInLineGame
 {
     public class GameClass
     {
-        private Board board = new();
+        public Board board = new();
         private int temp_btNumber;
         public bool validMove = false;
         public bool RedPlayersTurn = true;
-        //                                               N          NE         E        SE
-        private int[,] directionSteps = new int[,] { { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 } };
 
+        private const string RedPlayer = "R ";
+        private const string YellowPlayer = "Y ";
+        public string winningPlayer = "";
 
         public GameClass()
         {
@@ -29,22 +30,11 @@ namespace FourInLineGame
         }
 
         /*
-         This function will check is a move is valid
-         1. Checks like, is there space in the coloum?
-         2. Checks like, do we have a winner move?
+         This function will return true if a winner is found.
          */
         public bool checkMoveValid()
         {
-            try
-            {
-                checkForWinningMove();
-                return true;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "This is not a legal move, try again");
-                return false;
-            }
+            return checkForWinningMove();
         }
 
         public void changePlayerTurn()
@@ -54,15 +44,170 @@ namespace FourInLineGame
 
         private bool checkForWinningMove()
         {
-            //// outer loop loops over those direction-steps N, NE, E, SE:
-            foreach (var direction in directionSteps)
+            try
             {
-
+                if (helperCheckHorizontal() == "Red wins" || helperCheckVertical() == "Red wins" || helperCheckUpRightDiagonal() == "Red wins" || helperCheckUpLeftDiagonal() == "Red wins")
+                    {
+                    winningPlayer = "Red player";
+                    return true;
+                }
+                else if (helperCheckHorizontal() == "Yellow wins" || helperCheckVertical() == "Yellow wins"|| helperCheckUpRightDiagonal() == "Yellow wins" || helperCheckUpLeftDiagonal() == "Yellow wins")
+                {
+                    winningPlayer = "Yellow player";
+                    return true;
+                }
             }
-            return true;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return false;
         }
 
+        private string helperCheckHorizontal()
+        {
+            for (int c = 0; c < 7; c++)
+            {
+                int RedWinnerCount = 1;
+                int YellowWinnerCount = 1;
+                for (int r = 0; r < 5; r++)
+                {
+                    if ((board.Board2D[r, c] == RedPlayer) && (board.Board2D[r + 1, c] == RedPlayer))
+                    {
+                        RedWinnerCount++;
+                        if (RedWinnerCount >= 4)
+                        {
+                            return "Red wins";
+                        }
+                    }
+                    else if ((board.Board2D[r, c] == YellowPlayer) && (board.Board2D[r + 1, c] == YellowPlayer))
+                    {
+                        YellowWinnerCount++;
+                        if (YellowWinnerCount >= 4)
+                        {
+                            return "Yellow wins";
+                        }
+                    }
+                    else
+                    {
+                        RedWinnerCount = 1;
+                        YellowWinnerCount = 1;
+                    }
+                }
+            }
+            return "no winner";
+        }
+
+        private string helperCheckVertical()
+        { 
+            for (int r = 0; r < 6; r++)
+            {
+                int RedWinnerCount = 1;
+                int YellowWinnerCount = 1;
+                for (int c = 0; c < 6; c++)
+                {
+                    if ((board.Board2D[r, c] == RedPlayer) && (board.Board2D[r, c + 1] == RedPlayer))
+                    {
+                        RedWinnerCount++;
+                        if (RedWinnerCount >= 4)
+                        {
+                            return "Red wins";
+                        }
+                    }
+                    else if ((board.Board2D[r, c] == YellowPlayer) && (board.Board2D[r, c + 1] == YellowPlayer))
+                    {
+                        YellowWinnerCount++;
+                        if (YellowWinnerCount >= 4)
+                        {
+                            return "Yellow wins";
+                        }
+                    }
+                    else
+                    {
+                        RedWinnerCount = 1;
+                        YellowWinnerCount = 1;
+                    }
+                }
+            }
+            return "no winner";
+        }
         
+        private string helperCheckUpRightDiagonal()
+        {
+            //first we check up and right diagonal
+            for (int row = 0; row < 6; row++)
+            {
+                for (int col = 0; col < 7; col++)
+                {
+                    int RedWinner = 1;
+                    int YellowWinner = 1;
+                    for (int i = 0; i + row < 5 && col - i >= 0; i++)
+                    {
+                        if ((board.Board2D[col, row] == RedPlayer) && (board.Board2D[col - i, row + i] == RedPlayer))
+                        {
+                            RedWinner++;
+                            if (RedWinner > 4)
+                            {
+                                return "Red wins";
+                            }
+                        }
+                        else if ((board.Board2D[col, row] == YellowPlayer) && (board.Board2D[col - i, row + i] == YellowPlayer))
+                        {
+                            YellowWinner++;
+                            if (YellowWinner > 4)
+                            {
+                                return "Yellow wins";
+                            }
+                        }
+                        else
+                        {
+                            RedWinner = 1;
+                            YellowWinner = 1;
+                        }
+                    }
+                }
+            }
+            return "no winner";
+        }
+
+        public string helperCheckUpLeftDiagonal()
+        {
+            //second we check up and left diagonal
+            for (int row = 0; row < 5; row++)
+            {
+                for (int col = 0; col < 6; col++)
+                {
+                    int RedWinner = 1;
+                    int YellowWinner = 1;
+                    for (int i = 0; i + row < 5 && col + i < 6; i++)
+                    {
+                        if ((board.Board2D[col, row] == RedPlayer) && (board.Board2D[col + i, row + i] == RedPlayer))
+                        {
+                            RedWinner++;
+                            if (RedWinner > 4)
+                            {
+                                return "Red wins";
+                            }
+                        }
+                        else if ((board.Board2D[col, row] == YellowPlayer) && (board.Board2D[col + i, row + i] == YellowPlayer))
+                        {
+                            YellowWinner++;
+                            if (YellowWinner > 4)
+                            {
+                                return "Yellow wins";
+                            }
+                        }
+                        else
+                        {
+                            RedWinner = 1;
+                            YellowWinner = 1;
+                        }
+                    }
+                }
+            }
+            return "no winner";
+        }
+
         // The last space in the colloum is the target.
         // We fill the colloums from the bottom up. 
         public string MakeMove()
@@ -77,17 +222,27 @@ namespace FourInLineGame
                     {
                         for (int i = 5; i >= 0; i--)
                         {
-                            if (board.Board2D[i, c] != "X " && toReturn == "")
+                            if (board.Board2D[i, c] != "R " && board.Board2D[i, c] != "Y " && toReturn == "")
                             {
                                 toReturn = board.Board2D[i, c];
-                                board.Board2D[i, c] = "X ";
+
+                                if (RedPlayersTurn)
+                                    if(!(c < 2 && i < 2))
+                                        board.Board2D[i, c] = RedPlayer ; 
+                                    else
+                                        board.Board2D[i, c] = RedPlayer;
+                                else
+                                    if (!(c < 2 && i < 2))
+                                        board.Board2D[i, c] = YellowPlayer;
+                                    else
+                                        board.Board2D[i, c] = YellowPlayer;
+
                                 return toReturn;
                             }
                         }
                     }
                 }
             }
-            board.printBoard();
             return toReturn;
         }
     }

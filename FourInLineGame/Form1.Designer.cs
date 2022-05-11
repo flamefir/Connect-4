@@ -77,6 +77,8 @@
             this.roundButton43 = new FourInLineGame.RoundButton();
             this.roundButton44 = new FourInLineGame.RoundButton();
             this.tbRoundsPlayed = new System.Windows.Forms.TextBox();
+            this.lbRedPlayerScore = new System.Windows.Forms.Label();
+            this.lbYellowPlayerScore = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -568,11 +570,36 @@
             this.tbRoundsPlayed.Text = "0";
             this.tbRoundsPlayed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // lbRedPlayerScore
+            // 
+            this.lbRedPlayerScore.AutoSize = true;
+            this.lbRedPlayerScore.BackColor = System.Drawing.Color.Red;
+            this.lbRedPlayerScore.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lbRedPlayerScore.Location = new System.Drawing.Point(702, 392);
+            this.lbRedPlayerScore.Name = "lbRedPlayerScore";
+            this.lbRedPlayerScore.Size = new System.Drawing.Size(27, 32);
+            this.lbRedPlayerScore.TabIndex = 43;
+            this.lbRedPlayerScore.Text = "0";
+            // 
+            // lbYellowPlayerScore
+            // 
+            this.lbYellowPlayerScore.AutoSize = true;
+            this.lbYellowPlayerScore.BackColor = System.Drawing.Color.Yellow;
+            this.lbYellowPlayerScore.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lbYellowPlayerScore.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lbYellowPlayerScore.Location = new System.Drawing.Point(878, 392);
+            this.lbYellowPlayerScore.Name = "lbYellowPlayerScore";
+            this.lbYellowPlayerScore.Size = new System.Drawing.Size(27, 32);
+            this.lbYellowPlayerScore.TabIndex = 44;
+            this.lbYellowPlayerScore.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 764);
+            this.Controls.Add(this.lbYellowPlayerScore);
+            this.Controls.Add(this.lbRedPlayerScore);
             this.Controls.Add(this.tbRoundsPlayed);
             this.Controls.Add(this.roundButton44);
             this.Controls.Add(this.roundButton43);
@@ -582,7 +609,6 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Connect 4 game";
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -640,5 +666,7 @@
         private RoundButton roundButton43;
         private RoundButton roundButton44;
         private TextBox tbRoundsPlayed;
+        private Label lbRedPlayerScore;
+        private Label lbYellowPlayerScore;
     }
 }

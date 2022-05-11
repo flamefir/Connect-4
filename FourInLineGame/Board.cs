@@ -28,6 +28,11 @@ namespace FourInLineGame
             }
         }
 
+        public void reset2DBoard()
+        {
+            initializeBoard();
+        }
+
         public void printBoard()
         {
             int increment = 0;

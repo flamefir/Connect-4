@@ -6,45 +6,14 @@ namespace FourInLineGame
     {
         private GameClass game = new();
         private int counter = 0;
+        private int redScoreCounter = 0;
+        private int yellowScoreCounter = 0;
         private List<Tuple<RoundButton, string>> roundButtonNameList;
+        private bool rematch = false;
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
-        {
-            string button = ((Button)sender).Name;
-            int btNumber = Int32.Parse(button.Substring(11));
-
-            game.getButtonValue(btNumber);
-
-            if (game.checkMoveValid())
-            {
-                makeMoveOnBoard("roundButton" + game.MakeMove());
-                changePlayerTurn();
-            }
-        }
-
-        private void changePlayerTurn()
-        {
-            game.changePlayerTurn();
-            tbRoundsPlayed.Text = (counter += 1).ToString();
-            if (game.RedPlayersTurn)
-            {
-                roundButton43.BackColor = Color.Red;
-                roundButton44.BackColor = SystemColors.Control;
-            }
-            if (!game.RedPlayersTurn)
-            {
-                roundButton44.BackColor = Color.Yellow;
-                roundButton43.BackColor = SystemColors.Control;
-            }
-        }
-
-        private void makeMoveOnBoard(string moveBt)
-        {
             roundButtonNameList = new List<Tuple<RoundButton, string>>
             {
                 Tuple.Create(roundButton1, "roundButton1"),
@@ -90,7 +59,99 @@ namespace FourInLineGame
                 Tuple.Create(roundButton41, "roundButton41"),
                 Tuple.Create(roundButton42, "roundButton42")
             };
+        }
 
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                string button = ((Button)sender).Name;
+                int btNumber = Int32.Parse(button.Substring(11));
+                game.getButtonValue(btNumber);
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            makeMoveOnBoard("roundButton" + game.MakeMove());
+            changePlayerTurn();
+            game.board.printBoard();
+
+            if (!rematch)
+            {
+                if (game.checkMoveValid() && game.winningPlayer == "Red player")
+                {
+                    lbRedPlayerScore.Text = (redScoreCounter += 1).ToString();
+                    DialogResult dialogResult = MessageBox.Show($"Winner is Red player \n\n Want to play again?", "Winner box", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        rematch = true;
+                        checkForRematch();
+                    }
+                }
+                else if (game.checkMoveValid() && game.winningPlayer == "Yellow player")
+                {
+                    lbYellowPlayerScore.Text = (yellowScoreCounter += 1).ToString();
+                    DialogResult dialogResult = MessageBox.Show($"Winner is Yellow player \n\n Want to play again?", "Winner box", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        rematch = true;
+                        checkForRematch();
+                    }
+                }
+            }
+        }
+
+        private void changePlayerTurn()
+        {
+            game.changePlayerTurn();
+            tbRoundsPlayed.Text = (counter += 1).ToString();
+            if (game.RedPlayersTurn)
+            {
+                roundButton43.BackColor = Color.Red;
+                lbRedPlayerScore.BackColor = Color.Red;
+                roundButton44.BackColor = SystemColors.Control;
+                lbYellowPlayerScore.BackColor = SystemColors.Control;
+            }
+            if (!game.RedPlayersTurn)
+            {
+                roundButton44.BackColor = Color.Yellow;
+                lbYellowPlayerScore.BackColor = Color.Yellow;
+                roundButton43.BackColor = SystemColors.Control;
+                lbRedPlayerScore.BackColor = SystemColors.Control;           }
+        }
+
+        private void checkForRematch()
+        {
+            if (rematch)
+            {
+                game.board.reset2DBoard();
+                resetAllPieces();
+                tbRoundsPlayed.Text = "0";
+                rematch = false;
+                if (!game.RedPlayersTurn)
+                {
+                    changePlayerTurn();
+                }
+            }
+            else
+            {
+                Form1.ActiveForm.Enabled = false;
+            }
+        }
+
+        private void resetAllPieces()
+        {
+            foreach (Tuple<RoundButton, string> tuple in roundButtonNameList)
+            {
+                tuple.Item1.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void makeMoveOnBoard(string moveBt)
+        {
             foreach (Tuple<RoundButton, string> tuple in roundButtonNameList)
             {
                 if (tuple.Item2 == moveBt)
