@@ -141,9 +141,9 @@ namespace FourInLineGame
                 {
                     int RedWinner = 1;
                     int YellowWinner = 1;
-                    for (int i = 0; i + row < 5 && col - i >= 0; i++)
+                    for (int i = 0; i + row < 6 && col - i >= 0; i++)
                     {
-                        if ((board.Board2D[col, row] == RedPlayer) && (board.Board2D[col - i, row + i] == RedPlayer))
+                        if ((board.Board2D[row, col] == RedPlayer) && (board.Board2D[row + i, col - i] == RedPlayer))
                         {
                             RedWinner++;
                             if (RedWinner > 4)
@@ -151,7 +151,7 @@ namespace FourInLineGame
                                 return "Red wins";
                             }
                         }
-                        else if ((board.Board2D[col, row] == YellowPlayer) && (board.Board2D[col - i, row + i] == YellowPlayer))
+                        else if ((board.Board2D[row, col] == YellowPlayer) && (board.Board2D[row + i, col - i] == YellowPlayer))
                         {
                             YellowWinner++;
                             if (YellowWinner > 4)
@@ -179,9 +179,9 @@ namespace FourInLineGame
                 {
                     int RedWinner = 1;
                     int YellowWinner = 1;
-                    for (int i = 0; i + row < 5 && col + i < 6; i++)
+                    for (int i = 0; i + row < 6 && col + i < 7; i++)
                     {
-                        if ((board.Board2D[col, row] == RedPlayer) && (board.Board2D[col + i, row + i] == RedPlayer))
+                        if ((board.Board2D[row, col] == RedPlayer) && (board.Board2D[row + i, col + i] == RedPlayer))
                         {
                             RedWinner++;
                             if (RedWinner > 4)
@@ -189,7 +189,7 @@ namespace FourInLineGame
                                 return "Red wins";
                             }
                         }
-                        else if ((board.Board2D[col, row] == YellowPlayer) && (board.Board2D[col + i, row + i] == YellowPlayer))
+                        else if ((board.Board2D[row, col] == YellowPlayer) && (board.Board2D[row + i, col + i] == YellowPlayer))
                         {
                             YellowWinner++;
                             if (YellowWinner > 4)

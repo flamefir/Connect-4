@@ -74,6 +74,7 @@ namespace FourInLineGame
             {
                 Console.WriteLine(err.Message);
             }
+
             string movedButton = game.MakeMove();
             if (movedButton != "")
 	        {
@@ -91,8 +92,8 @@ namespace FourInLineGame
                     {
                         lbRedPlayerScore.Text = (redScoreCounter += 1).ToString();
                         rematch = true;
-                        checkForRematch();
                     }
+                    checkForRematch();
                 }
                 else if (game.checkMoveValid() && game.winningPlayer == "Yellow player")
                 {
@@ -101,8 +102,8 @@ namespace FourInLineGame
                     {
                         lbYellowPlayerScore.Text = (yellowScoreCounter += 1).ToString();
                         rematch = true;
-                        checkForRematch();
                     }
+                    checkForRematch();
                 }
             }
         }
@@ -141,7 +142,7 @@ namespace FourInLineGame
             }
             else
             {
-                Form1.ActiveForm.Enabled = false;
+                Form1.ActiveForm.Close();
             }
         }
 
