@@ -70,33 +70,36 @@ namespace FourInLineGame
                 game.getButtonValue(btNumber);
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
-
+                Console.WriteLine(err.Message);
             }
-
-            makeMoveOnBoard("roundButton" + game.MakeMove());
-            changePlayerTurn();
-            game.board.printBoard();
+            string movedButton = game.MakeMove();
+            if (movedButton != "")
+	        {
+                makeMoveOnBoard("roundButton" + movedButton);
+                changePlayerTurn();
+                game.board.printBoard();
+	        }
 
             if (!rematch)
             {
                 if (game.checkMoveValid() && game.winningPlayer == "Red player")
                 {
-                    lbRedPlayerScore.Text = (redScoreCounter += 1).ToString();
                     DialogResult dialogResult = MessageBox.Show($"Winner is Red player \n\n Want to play again?", "Winner box", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
+                        lbRedPlayerScore.Text = (redScoreCounter += 1).ToString();
                         rematch = true;
                         checkForRematch();
                     }
                 }
                 else if (game.checkMoveValid() && game.winningPlayer == "Yellow player")
                 {
-                    lbYellowPlayerScore.Text = (yellowScoreCounter += 1).ToString();
                     DialogResult dialogResult = MessageBox.Show($"Winner is Yellow player \n\n Want to play again?", "Winner box", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
+                        lbYellowPlayerScore.Text = (yellowScoreCounter += 1).ToString();
                         rematch = true;
                         checkForRematch();
                     }
