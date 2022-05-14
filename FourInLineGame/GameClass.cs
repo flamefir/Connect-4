@@ -30,7 +30,7 @@ namespace FourInLineGame
         }
 
         /*
-         This function will return true if a winner is found.
+         This function will return true if a winner is found. 
          */
         public bool checkMoveValid()
         {
