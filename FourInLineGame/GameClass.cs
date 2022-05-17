@@ -29,9 +29,6 @@ namespace FourInLineGame
             temp_btNumber = btNumber;
         }
 
-        /*
-         This function will return true if a winner is found. 
-         */
         public bool checkMoveValid()
         {
             return checkForWinningMove();
